@@ -12,6 +12,7 @@
 		02E3132129F704DF00272092 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E3131F29F704DF00272092 /* Main.storyboard */; };
 		02E3132329F704E100272092 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02E3132229F704E100272092 /* Assets.xcassets */; };
 		02E3132629F704E100272092 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E3132429F704E100272092 /* LaunchScreen.storyboard */; };
+		02E3132F29F708EB00272092 /* AddRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E3132E29F708EB00272092 /* AddRegistrationTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		02E3132229F704E100272092 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02E3132529F704E100272092 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02E3132729F704E100272092 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02E3132E29F708EB00272092 /* AddRegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRegistrationTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,23 @@
 		02E3131829F704DF00272092 /* DC-LessonComplexInputScreens-Hotel Manzana */ = {
 			isa = PBXGroup;
 			children = (
+				02E3132729F704E100272092 /* Info.plist */,
 				02E3131929F704DF00272092 /* AppDelegate.swift */,
 				02E3131B29F704DF00272092 /* SceneDelegate.swift */,
+				02E3132429F704E100272092 /* LaunchScreen.storyboard */,
 				02E3131F29F704DF00272092 /* Main.storyboard */,
 				02E3132229F704E100272092 /* Assets.xcassets */,
-				02E3132429F704E100272092 /* LaunchScreen.storyboard */,
-				02E3132729F704E100272092 /* Info.plist */,
+				02E3132D29F708B700272092 /* Controller */,
 			);
 			path = "DC-LessonComplexInputScreens-Hotel Manzana";
+			sourceTree = "<group>";
+		};
+		02E3132D29F708B700272092 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				02E3132E29F708EB00272092 /* AddRegistrationTableViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02E3132F29F708EB00272092 /* AddRegistrationTableViewController.swift in Sources */,
 				02E3131A29F704DF00272092 /* AppDelegate.swift in Sources */,
 				02E3131C29F704DF00272092 /* SceneDelegate.swift in Sources */,
 			);

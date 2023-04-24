@@ -10,7 +10,7 @@
         <!--New Guest Registration-->
         <scene sceneID="ikn-av-t9N">
             <objects>
-                <tableViewController id="gyt-CS-WE6" sceneMemberID="viewController">
+                <tableViewController id="gyt-CS-WE6" customClass="AddRegistrationTableViewController" customModule="DC_LessonComplexInputScreens_Hotel_Manzana" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Y4G-rB-eHL">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,7 +89,18 @@
                             <outlet property="delegate" destination="gyt-CS-WE6" id="jyA-cn-JmB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Guest Registration" id="S8Y-AG-QiR"/>
+                    <navigationItem key="navigationItem" title="New Guest Registration" id="S8Y-AG-QiR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mQb-ym-2La">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="gyt-CS-WE6" id="XEV-zq-Eho"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="emailTextField" destination="FwP-y0-dD5" id="4r6-SM-TIE"/>
+                        <outlet property="firstNameTextField" destination="eat-4w-qu4" id="s35-hN-gnP"/>
+                        <outlet property="lastNameTextField" destination="VwX-RL-Tb0" id="mEK-hL-dOW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gQc-3o-urt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
