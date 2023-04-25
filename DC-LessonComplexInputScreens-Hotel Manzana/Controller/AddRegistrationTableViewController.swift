@@ -39,6 +39,31 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //переменная для хранения выбранного номера
     var roomType: RoomType?
     
+    //вычисляемое свойство с именем registration, которое возвращает объект типа Registration?
+    var registration: Registration? {
+    
+        guard let roomType = roomType else { return nil }
+    
+        let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? ""
+        let email = emailTextField.text ?? ""
+        let checkInDate = checkInDatePicker.date
+        let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
+        let hasWifi = wifiSwitch.isOn
+    
+        return Registration(firstName: firstName,
+                            lastName: lastName,
+                            emailAddress: email,
+                            checkInDate: checkInDate,
+                            checkOutDate: checkOutDate,
+                            numberOfAdults: numberOfAdults,
+                            numberOfChildren: numberOfChildren,
+                            wifi: hasWifi,
+                            roomType: roomType)
+    }
+    
     //Выходы
     //для 0 секции
     @IBOutlet var firstNameTextField: UITextField!
@@ -76,31 +101,6 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         updateDateViews()
         updateNumberOfGuests()
         updateRoomType()
-    }
-
-    //по нажатию кнопки Done в правом верхнем углу
-    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        //безопасное извлечение, если не пришел текст, то назначить пустой текст ""
-        let firstName = firstNameTextField.text ?? ""
-        let lastName = lastNameTextField.text ?? ""
-        let email = emailTextField.text ?? ""
-        let checkInDate = checkInDatePicker.date
-        let checkOutDate = checkOutDatePicker.date
-        let numberOfAdults = Int(numberOfAdultsStepper.value)
-        let numberOfChildren = Int(numberOfChildrenStepper.value)
-        let hasWifi = wifiSwitch.isOn
-        let roomChoice = roomType?.name ?? "Not Set"
-        
-        print("DONE TAPPED")
-        print("firstName: \(firstName)")
-        print("lastName: \(lastName)")
-        print("email: \(email)")
-        print("checkIn: \(checkInDate)")
-        print("checkOut: \(checkOutDate)")
-        print("numberOfAdults: \(numberOfAdults)")
-        print("numberOfChildren: \(numberOfChildren)")
-        print("wifi: \(hasWifi)")
-        print("roomType: \(roomChoice)")
     }
     
     //MARK: все для секции выбора дат
@@ -206,6 +206,10 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         selectRoomTypeController?.roomType = roomType
         
         return selectRoomTypeController
+    }
+    
+    @IBAction func cancelButtonTapped() {
+        dismiss(animated: true)
     }
     
 }

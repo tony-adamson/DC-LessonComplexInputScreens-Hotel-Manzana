@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		02AD77AE29F803A900CBA27E /* RoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD77AD29F803A900CBA27E /* RoomType.swift */; };
 		02AD77B029F8087200CBA27E /* SelectRoomTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD77AF29F8087200CBA27E /* SelectRoomTypeTableViewController.swift */; };
+		02AD77B229F85FF600CBA27E /* RegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD77B129F85FF600CBA27E /* RegistrationTableViewController.swift */; };
+		02AD77B429F8635B00CBA27E /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD77B329F8635B00CBA27E /* Registration.swift */; };
 		02E3131A29F704DF00272092 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E3131929F704DF00272092 /* AppDelegate.swift */; };
 		02E3131C29F704DF00272092 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E3131B29F704DF00272092 /* SceneDelegate.swift */; };
 		02E3132129F704DF00272092 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E3131F29F704DF00272092 /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* Begin PBXFileReference section */
 		02AD77AD29F803A900CBA27E /* RoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomType.swift; sourceTree = "<group>"; };
 		02AD77AF29F8087200CBA27E /* SelectRoomTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRoomTypeTableViewController.swift; sourceTree = "<group>"; };
+		02AD77B129F85FF600CBA27E /* RegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTableViewController.swift; sourceTree = "<group>"; };
+		02AD77B329F8635B00CBA27E /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		02E3131629F704DF00272092 /* DC-LessonComplexInputScreens-Hotel Manzana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DC-LessonComplexInputScreens-Hotel Manzana.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02E3131929F704DF00272092 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02E3131B29F704DF00272092 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				02AD77AD29F803A900CBA27E /* RoomType.swift */,
+				02AD77B329F8635B00CBA27E /* Registration.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -85,6 +90,7 @@
 			children = (
 				02E3132E29F708EB00272092 /* AddRegistrationTableViewController.swift */,
 				02AD77AF29F8087200CBA27E /* SelectRoomTypeTableViewController.swift */,
+				02AD77B129F85FF600CBA27E /* RegistrationTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -162,8 +168,10 @@
 			files = (
 				02AD77AE29F803A900CBA27E /* RoomType.swift in Sources */,
 				02E3132F29F708EB00272092 /* AddRegistrationTableViewController.swift in Sources */,
+				02AD77B429F8635B00CBA27E /* Registration.swift in Sources */,
 				02E3131A29F704DF00272092 /* AppDelegate.swift in Sources */,
 				02E3131C29F704DF00272092 /* SceneDelegate.swift in Sources */,
+				02AD77B229F85FF600CBA27E /* RegistrationTableViewController.swift in Sources */,
 				02AD77B029F8087200CBA27E /* SelectRoomTypeTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +327,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -347,6 +356,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
