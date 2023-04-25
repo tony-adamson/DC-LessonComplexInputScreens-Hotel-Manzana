@@ -11,8 +11,11 @@ class AddRegistrationTableViewController: UITableViewController {
 
     //свойства для отслеживания состояния представлений в ячейках
     //хранят индекс пути к датапикерам для удобного сравнения в методах делегата.
-    let checkInDatePickerellIndexPath = IndexPath(row: 1, section: 1)
+    let checkInDatePickerCellIndexPath = IndexPath(row: 1, section: 1)
     let checkOutDatePickerCellIndexPath = IndexPath(row: 3, section: 1)
+    
+    let checkInDateLabelCellIndexPath = IndexPath(row: 0, section: 1)
+    let checkOutDateLabelCellIndexPath = IndexPath(row: 2, section: 1)
     
     //переменные для отслеживания состояния представлений в ячейках
     //хранят, будут ли датапикеры показаны или нет, и соответственно показывают или скрывают их, когда свойства устанавливаются. Оба датапикера начинаются с отображения в скрытом состоянии.
@@ -87,7 +90,7 @@ class AddRegistrationTableViewController: UITableViewController {
         //Используя switch на indexPath мы добавим случаи для двух строк выбора даты с where-условием для каждого, чтобы дополнительно определить, когда случай сработает. (where-условие работает как условие if.)
         switch indexPath {
         //возвращаем высоту 0 для ячеек выбора даты, когда они не отображаются.
-        case checkInDatePickerellIndexPath where isCheckInDatePickerVisible == false:
+        case checkInDatePickerCellIndexPath where isCheckInDatePickerVisible == false:
             return 0
         case checkOutDatePickerCellIndexPath where isCheckOutDatePickerVisible == false:
             return 0
@@ -100,12 +103,35 @@ class AddRegistrationTableViewController: UITableViewController {
     //возвращаем правильную оценочную высоту строки для каждой строки, высота согласно size inspector
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath {
-        case checkInDatePickerellIndexPath:
+        case checkInDatePickerCellIndexPath:
             return 190
         case checkOutDatePickerCellIndexPath:
             return 190
         default:
             return UITableView.automaticDimension
         }
+    }
+    
+    //метод для работы с выделением ячейки через didSelectRowAt, позволяет включать пикеры по нажатию на ячейку
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath == checkInDateLabelCellIndexPath && isCheckOutDatePickerVisible == false {
+                //выбрана метка Check-in, check-out picker не виден, переключить check-in picker
+                isCheckInDatePickerVisible.toggle()
+            } else if indexPath == checkOutDateLabelCellIndexPath && isCheckInDatePickerVisible == false {
+                //выбрана метка Check-out, check-in picker не виден, переключить check-out picker
+                isCheckOutDatePickerVisible.toggle()
+            } else if indexPath == checkInDateLabelCellIndexPath || indexPath == checkOutDateLabelCellIndexPath {
+                //выбрана метка, но предыдущие условия не выполнены,виден один пикер, переключить оба
+                isCheckInDatePickerVisible.toggle()
+                isCheckOutDatePickerVisible.toggle()
+            } else {
+                return
+            }
+        
+        //обновляем вью для пересчета высоты ячеек после действий выбора
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 }
