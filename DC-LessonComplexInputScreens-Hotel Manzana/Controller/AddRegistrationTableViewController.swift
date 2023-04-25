@@ -7,8 +7,14 @@
 
 import UIKit
 
-class AddRegistrationTableViewController: UITableViewController {
-
+class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeTableViewControllerDelegate {
+    
+    //MARK: для соответствия протоколу SelectRoomTypeTableViewControllerDelegate
+    func selectRoomTypeTableViewController(_ controller: SelectRoomTypeTableViewController, didSelect roomType: RoomType) {
+        self.roomType = roomType
+        updateRoomType()
+    }
+    
     //свойства для отслеживания состояния представлений в ячейках
     //хранят индекс пути к датапикерам для удобного сравнения в методах делегата.
     let checkInDatePickerCellIndexPath = IndexPath(row: 1, section: 1)
@@ -29,6 +35,9 @@ class AddRegistrationTableViewController: UITableViewController {
             checkOutDatePicker.isHidden = !isCheckOutDatePickerVisible
         }
     }
+    
+    //переменная для хранения выбранного номера
+    var roomType: RoomType?
     
     //Выходы
     //для 0 секции
@@ -51,6 +60,9 @@ class AddRegistrationTableViewController: UITableViewController {
     //для 3 секции с опциями проживания
     @IBOutlet var wifiSwitch: UISwitch!
     
+    //для 4 секции с выбором номера
+    @IBOutlet var roomTypeLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,6 +75,7 @@ class AddRegistrationTableViewController: UITableViewController {
         
         updateDateViews()
         updateNumberOfGuests()
+        updateRoomType()
     }
 
     //по нажатию кнопки Done в правом верхнем углу
@@ -76,6 +89,7 @@ class AddRegistrationTableViewController: UITableViewController {
         let numberOfAdults = Int(numberOfAdultsStepper.value)
         let numberOfChildren = Int(numberOfChildrenStepper.value)
         let hasWifi = wifiSwitch.isOn
+        let roomChoice = roomType?.name ?? "Not Set"
         
         print("DONE TAPPED")
         print("firstName: \(firstName)")
@@ -86,6 +100,7 @@ class AddRegistrationTableViewController: UITableViewController {
         print("numberOfAdults: \(numberOfAdults)")
         print("numberOfChildren: \(numberOfChildren)")
         print("wifi: \(hasWifi)")
+        print("roomType: \(roomChoice)")
     }
     
     //MARK: все для секции выбора дат
@@ -167,6 +182,30 @@ class AddRegistrationTableViewController: UITableViewController {
     
     //MARK: для секции с опциями
     @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
+    }
+    
+    //MARK: для секции с выбором типа номера
+    //функция для обновления типа номера
+    func updateRoomType() {
+        if let roomType = roomType {
+            roomTypeLabel.text = roomType.name
+        } else {
+            roomTypeLabel.text = "Not Set"
+        }
+    }
+    
+    //МARK: переход по нажатию на ячейк ус выбором номера
+    @IBSegueAction func selectRoomType(_ coder: NSCoder) -> SelectRoomTypeTableViewController? {
+        //инициализируем переменную как SelectRoomTypeTableViewController(coder: coder)
+        let selectRoomTypeController = SelectRoomTypeTableViewController(coder: coder)
+        
+        //назначаем ее делегатом
+        selectRoomTypeController?.delegate = self
+        //В этой строке кода значение свойства roomType объекта selectRoomTypeController устанавливается равным значению свойства roomType текущего объекта AddRegistrationTableViewController.
+        //Это означает, что если в AddRegistrationTableViewController была уже сделана выборка типа номера, выбранное значение будет передано в SelectRoomTypeTableViewController, чтобы он мог отметить соответствующую ячейку в своем списке и отобразить выбранное значение.
+        selectRoomTypeController?.roomType = roomType
+        
+        return selectRoomTypeController
     }
     
 }
