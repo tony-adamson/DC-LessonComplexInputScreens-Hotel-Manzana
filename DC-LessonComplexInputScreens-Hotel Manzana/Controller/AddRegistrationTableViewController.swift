@@ -48,6 +48,9 @@ class AddRegistrationTableViewController: UITableViewController {
     @IBOutlet var numberOfChildrenLabel: UILabel!
     @IBOutlet var numberOfChildrenStepper: UIStepper!
     
+    //для 3 секции с опциями проживания
+    @IBOutlet var wifiSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,6 +75,7 @@ class AddRegistrationTableViewController: UITableViewController {
         let checkOutDate = checkOutDatePicker.date
         let numberOfAdults = Int(numberOfAdultsStepper.value)
         let numberOfChildren = Int(numberOfChildrenStepper.value)
+        let hasWifi = wifiSwitch.isOn
         
         print("DONE TAPPED")
         print("firstName: \(firstName)")
@@ -81,6 +85,7 @@ class AddRegistrationTableViewController: UITableViewController {
         print("checkOut: \(checkOutDate)")
         print("numberOfAdults: \(numberOfAdults)")
         print("numberOfChildren: \(numberOfChildren)")
+        print("wifi: \(hasWifi)")
     }
     
     //MARK: все для секции выбора дат
@@ -159,4 +164,9 @@ class AddRegistrationTableViewController: UITableViewController {
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         updateNumberOfGuests()
     }
+    
+    //MARK: для секции с опциями
+    @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
+    }
+    
 }
