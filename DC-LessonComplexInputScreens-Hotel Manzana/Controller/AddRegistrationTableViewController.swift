@@ -31,14 +31,22 @@ class AddRegistrationTableViewController: UITableViewController {
     }
     
     //Выходы
+    //для 0 секции
     @IBOutlet var firstNameTextField: UITextField!
     @IBOutlet var lastNameTextField: UITextField!
     @IBOutlet var emailTextField: UITextField!
     
+    //для 1 секции с датами
     @IBOutlet var checkInDateLabel: UILabel!
     @IBOutlet var checkInDatePicker: UIDatePicker!
     @IBOutlet var checkOutDateLabel: UILabel!
     @IBOutlet var checkOutDatePicker: UIDatePicker!
+    
+    //для 2 секции с количеством проживающих
+    @IBOutlet var numberOfAdultsLabel: UILabel!
+    @IBOutlet var numberOfAdultsStepper: UIStepper!
+    @IBOutlet var numberOfChildrenLabel: UILabel!
+    @IBOutlet var numberOfChildrenStepper: UIStepper!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +59,7 @@ class AddRegistrationTableViewController: UITableViewController {
         checkInDatePicker.date = midnightToday
         
         updateDateViews()
+        updateNumberOfGuests()
     }
 
     //по нажатию кнопки Done в правом верхнем углу
@@ -61,6 +70,8 @@ class AddRegistrationTableViewController: UITableViewController {
         let email = emailTextField.text ?? ""
         let checkInDate = checkInDatePicker.date
         let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
         
         print("DONE TAPPED")
         print("firstName: \(firstName)")
@@ -68,8 +79,11 @@ class AddRegistrationTableViewController: UITableViewController {
         print("email: \(email)")
         print("checkIn: \(checkInDate)")
         print("checkOut: \(checkOutDate)")
+        print("numberOfAdults: \(numberOfAdults)")
+        print("numberOfChildren: \(numberOfChildren)")
     }
     
+    //MARK: все для секции выбора дат
     //функция срабатывает при изменении значения первого пикера
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         updateDateViews()
@@ -133,5 +147,16 @@ class AddRegistrationTableViewController: UITableViewController {
         //обновляем вью для пересчета высоты ячеек после действий выбора
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+    
+    //MARK: Все для секции с количеством гостей
+    //функция для обновления представлений количества проживающих
+    func updateNumberOfGuests() {
+        numberOfAdultsLabel.text = "\(Int(numberOfAdultsStepper.value))"
+        numberOfChildrenLabel.text = "\(Int(numberOfChildrenStepper.value))"
+    }
+    
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        updateNumberOfGuests()
     }
 }
