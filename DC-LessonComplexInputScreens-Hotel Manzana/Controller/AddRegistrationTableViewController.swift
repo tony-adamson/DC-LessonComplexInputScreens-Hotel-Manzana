@@ -88,6 +88,9 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //для 4 секции с выбором номера
     @IBOutlet var roomTypeLabel: UILabel!
     
+    //атулет для бар баттон
+    @IBOutlet var doneBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,7 +104,28 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         updateDateViews()
         updateNumberOfGuests()
         updateRoomType()
+        
+        doneBarButton.isEnabled = false
+        //добавляем отслеживание для 3х текстовых полей по наличию измненеий
+        firstNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
+        lastNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
     }
+    
+    //MARK: метод для включения кнопки DONE
+    @objc func updateDoneButtonState() {
+        guard let registration = registration,
+              !registration.firstName.isEmpty,
+              !registration.lastName.isEmpty,
+              !registration.emailAddress.isEmpty,
+              registration.numberOfAdults + registration.numberOfChildren > 0
+        else {
+            doneBarButton.isEnabled = false
+            return
+        }
+        doneBarButton.isEnabled = true
+    }
+    
     
     //MARK: все для секции выбора дат
     //функция срабатывает при изменении значения первого пикера
@@ -166,7 +190,7 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         
         //обновляем вью для пересчета высоты ячеек после действий выбора
         tableView.beginUpdates()
-        tableView.endUpdates()
+        tableView.endUpdates() 
     }
     
     //MARK: Все для секции с количеством гостей
@@ -189,6 +213,8 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     func updateRoomType() {
         if let roomType = roomType {
             roomTypeLabel.text = roomType.name
+            //добавляем проверку доступности кнопки после обновления текста
+            updateDoneButtonState()
         } else {
             roomTypeLabel.text = "Not Set"
         }
@@ -213,3 +239,5 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     }
     
 }
+
+

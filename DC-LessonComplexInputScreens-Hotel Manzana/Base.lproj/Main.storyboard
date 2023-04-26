@@ -138,7 +138,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FwP-y0-dD5">
                                                     <rect key="frame" x="20" y="11" width="353" height="34.333333333333336"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -427,7 +427,7 @@
                     <navigationItem key="navigationItem" title="New Guest Registration" id="S8Y-AG-QiR">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Djf-Xf-DyN">
                             <connections>
-                                <action selector="cancelButtonTapped:" destination="gyt-CS-WE6" id="Ght-oH-9fi"/>
+                                <action selector="cancelButtonTapped" destination="gyt-CS-WE6" id="JM9-Te-mxC"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="mQb-ym-2La">
@@ -441,6 +441,7 @@
                         <outlet property="checkInDatePicker" destination="KmY-cK-uYJ" id="ynF-aS-OAv"/>
                         <outlet property="checkOutDateLabel" destination="1oK-5R-2C7" id="cQd-cm-yg6"/>
                         <outlet property="checkOutDatePicker" destination="qS6-CD-cZ5" id="kq8-Sh-RNF"/>
+                        <outlet property="doneBarButton" destination="mQb-ym-2La" id="gEk-ev-Z1Y"/>
                         <outlet property="emailTextField" destination="FwP-y0-dD5" id="4r6-SM-TIE"/>
                         <outlet property="firstNameTextField" destination="eat-4w-qu4" id="s35-hN-gnP"/>
                         <outlet property="lastNameTextField" destination="VwX-RL-Tb0" id="mEK-hL-dOW"/>
