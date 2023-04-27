@@ -29,7 +29,19 @@ class RegistrationTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-
+    //для редактирования записи по тапу на ячейку
+    //под этод метод создана переменная existingRegistration в AddRegistrationTableViewController
+    @IBSegueAction func showRegistration(_ coder: NSCoder, sender: Any?) -> AddRegistrationTableViewController? {
+        let addRegistrationTableViewController = AddRegistrationTableViewController(coder: coder)
+        
+        guard let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else { return addRegistrationTableViewController }
+        
+        let registration = registrations[indexPath.row]
+        addRegistrationTableViewController?.existingRegistration = registration
+        
+        return addRegistrationTableViewController
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

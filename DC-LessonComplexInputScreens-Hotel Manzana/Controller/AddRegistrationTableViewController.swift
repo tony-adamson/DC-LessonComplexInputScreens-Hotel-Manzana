@@ -8,14 +8,38 @@
 import UIKit
 
 class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeTableViewControllerDelegate, UITextFieldDelegate {
-    
     //добавили делегат тектового поля для реализации скрытия клавиатуры по нажатию кнопки
     
-    //MARK: для соответствия протоколу SelectRoomTypeTableViewControllerDelegate
-    func selectRoomTypeTableViewController(_ controller: SelectRoomTypeTableViewController, didSelect roomType: RoomType) {
-        self.roomType = roomType
-        updateRoomType()
-    }
+    //Выходы
+    //для 0 секции
+    @IBOutlet var firstNameTextField: UITextField!
+    @IBOutlet var lastNameTextField: UITextField!
+    @IBOutlet var emailTextField: UITextField!
+    //для 1 секции с датами
+    @IBOutlet var checkInDateLabel: UILabel!
+    @IBOutlet var checkInDatePicker: UIDatePicker!
+    @IBOutlet var checkOutDateLabel: UILabel!
+    @IBOutlet var checkOutDatePicker: UIDatePicker!
+    //для 2 секции с количеством проживающих
+    @IBOutlet var numberOfAdultsLabel: UILabel!
+    @IBOutlet var numberOfAdultsStepper: UIStepper!
+    @IBOutlet var numberOfChildrenLabel: UILabel!
+    @IBOutlet var numberOfChildrenStepper: UIStepper!
+    //для 3 секции с опциями проживания
+    @IBOutlet var wifiSwitch: UISwitch!
+    //для 4 секции с выбором номера
+    @IBOutlet var roomTypeLabel: UILabel!
+    //атулет для бар баттон
+    @IBOutlet var doneBarButton: UIBarButtonItem!
+    
+    //Аутлеты для Сharges
+    @IBOutlet var numberOfNightsCount: UILabel!
+    @IBOutlet var dateInformationLabel: UILabel!
+    @IBOutlet var totalPriceForRoomLabel: UILabel!
+    @IBOutlet var totalPriceForRoomInfoLabel: UILabel!
+    @IBOutlet var wifiPriceLabel: UILabel!
+    @IBOutlet var wifiInfoLabel: UILabel!
+    @IBOutlet var totalPriceLabel: UILabel!
     
     //свойства для отслеживания состояния представлений в ячейках
     //хранят индекс пути к датапикерам для удобного сравнения в методах делегата.
@@ -44,10 +68,10 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //вычисляемое свойство с именем registration, которое возвращает объект типа Registration?
     var registration: Registration? {
     
-        guard let roomType = roomType else { return nil }
+        guard let roomType = roomType,
+              let firstName = firstNameTextField.text, !firstName.isEmpty,
+              let lastName = lastNameTextField.text, !lastName.isEmpty else { return nil }
     
-        let firstName = firstNameTextField.text ?? ""
-        let lastName = lastNameTextField.text ?? ""
         let email = emailTextField.text ?? ""
         let checkInDate = checkInDatePicker.date
         let checkOutDate = checkOutDatePicker.date
@@ -66,43 +90,8 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
                             roomType: roomType)
     }
     
-    //Выходы
-    //для 0 секции
-    @IBOutlet var firstNameTextField: UITextField!
-    @IBOutlet var lastNameTextField: UITextField!
-    @IBOutlet var emailTextField: UITextField!
-    
-    //для 1 секции с датами
-    @IBOutlet var checkInDateLabel: UILabel!
-    @IBOutlet var checkInDatePicker: UIDatePicker!
-    @IBOutlet var checkOutDateLabel: UILabel!
-    @IBOutlet var checkOutDatePicker: UIDatePicker!
-    
-    //для 2 секции с количеством проживающих
-    @IBOutlet var numberOfAdultsLabel: UILabel!
-    @IBOutlet var numberOfAdultsStepper: UIStepper!
-    @IBOutlet var numberOfChildrenLabel: UILabel!
-    @IBOutlet var numberOfChildrenStepper: UIStepper!
-    
-    //для 3 секции с опциями проживания
-    @IBOutlet var wifiSwitch: UISwitch!
-    
-    //для 4 секции с выбором номера
-    @IBOutlet var roomTypeLabel: UILabel!
-    
-    //атулет для бар баттон
-    @IBOutlet var doneBarButton: UIBarButtonItem!
-    
-    //Аутлеты для Сharges
-    @IBOutlet var numberOfNightsCount: UILabel!
-    @IBOutlet var dateInformationLabel: UILabel!
-    @IBOutlet var totalPriceForRoomLabel: UILabel!
-    @IBOutlet var totalPriceForRoomInfoLabel: UILabel!
-    @IBOutlet var wifiPriceLabel: UILabel!
-    @IBOutlet var wifiInfoLabel: UILabel!
-    @IBOutlet var totalPriceLabel: UILabel!
-    
-    
+    //переменная для получения данных при редактировании ячейки
+    var existingRegistration: Registration?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,12 +101,31 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         lastNameTextField.delegate = self
         emailTextField.delegate = self
         
-        //инициализируем константу и передаем в него текущую дату из календаря устройства
-        let midnightToday = Calendar.current.startOfDay(for: Date())
-        //устанавливаем свойство .minimumDate у пикера равным текущей дате
-        checkInDatePicker.minimumDate = midnightToday
-        //устанавливаем дату на самом пикере равной текущей дате
-        checkInDatePicker.date = midnightToday
+        //если данные для редактирования получены то
+        if let existingRegistration = existingRegistration {
+            //меняем заголовок таблицы
+            title = "View/Edit Guest Registration"
+            doneBarButton.isEnabled = false
+            roomType = existingRegistration.roomType
+            
+            //устанавливаем параметры для ячеек и опций
+            roomType = existingRegistration.roomType
+            firstNameTextField.text = existingRegistration.firstName
+            lastNameTextField.text = existingRegistration.lastName
+            emailTextField.text = existingRegistration.emailAddress
+            checkInDatePicker.date = existingRegistration.checkInDate
+            checkOutDatePicker.date = existingRegistration.checkOutDate
+            numberOfAdultsStepper.value = Double(existingRegistration.numberOfAdults)
+            numberOfChildrenStepper.value = Double(existingRegistration.numberOfChildren)
+            wifiSwitch.isOn = existingRegistration.wifi
+        } else {
+            //инициализируем константу и передаем в него текущую дату из календаря устройства
+            let midnightToday = Calendar.current.startOfDay(for: Date())
+            //устанавливаем свойство .minimumDate у пикера равным текущей дате
+            checkInDatePicker.minimumDate = midnightToday
+            //устанавливаем дату на самом пикере равной текущей дате
+            checkInDatePicker.date = midnightToday
+        }
         
         updateDateViews()
         updateNumberOfGuests()
@@ -125,13 +133,48 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         
         doneBarButton.isEnabled = false
         
-        //Установим начальные значения для charges
+        //Установим значения для charges
         calculateCharges()
         
         //добавляем отслеживание для 3х текстовых полей по наличию измненеий
         firstNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
         lastNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
         emailTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
+    }
+    
+    //для обновления данных в полях даты заезда и даты выезда
+    func updateDateViews() {
+        //присваиваем минимальную дату пикеру используя обращение к текущей дате и date(byAdding:value:to:) добавляя один день
+        checkOutDatePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: checkInDatePicker.date)
+        
+        calculateCharges()
+        
+        //обращаемся к дате в пикере и форматируем ее .abbreviated - аббревиатура, .omitted - исключенная/пропущенная
+        checkInDateLabel.text = checkInDatePicker.date.formatted(date: .abbreviated, time: .omitted)
+        checkOutDateLabel.text = checkOutDatePicker.date.formatted(date: .abbreviated, time: .omitted)
+    }
+    
+    //MARK: Все для секции с количеством гостей
+    //функция для обновления представлений количества проживающих
+    func updateNumberOfGuests() {
+        numberOfAdultsLabel.text = "\(Int(numberOfAdultsStepper.value))"
+        numberOfChildrenLabel.text = "\(Int(numberOfChildrenStepper.value))"
+    }
+    
+    //MARK: для секции с выбором типа номера
+    //функция для обновления типа номера
+    func updateRoomType() {
+        if let roomType = roomType {
+            roomTypeLabel.text = roomType.name
+            
+            //добавляем проверку доступности кнопки после обновления текста
+            updateDoneButtonState()
+            
+            //так же пересчитаем сумму
+            calculateCharges()
+        } else {
+            roomTypeLabel.text = "Not Set"
+        }
     }
     
     //MARK: метод для расчета всех полей в charges
@@ -200,17 +243,6 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         calculateCharges()
     }
     
-    //для обновления данных в полях даты заезда и даты выезда
-    func updateDateViews() {
-        //присваиваем минимальную дату пикеру используя обращение к текущей дате и date(byAdding:value:to:) добавляя один день
-        checkOutDatePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: checkInDatePicker.date)
-        
-        calculateCharges()
-        
-        //обращаемся к дате в пикере и форматируем ее .abbreviated - аббревиатура, .omitted - исключенная/пропущенная
-        checkInDateLabel.text = checkInDatePicker.date.formatted(date: .abbreviated, time: .omitted)
-        checkOutDateLabel.text = checkOutDatePicker.date.formatted(date: .abbreviated, time: .omitted)
-    }
     
     //метод делегата таблицы запрашивает высоту строки при отображении строк таблицы.
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -262,13 +294,6 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         tableView.endUpdates() 
     }
     
-    //MARK: Все для секции с количеством гостей
-    //функция для обновления представлений количества проживающих
-    func updateNumberOfGuests() {
-        numberOfAdultsLabel.text = "\(Int(numberOfAdultsStepper.value))"
-        numberOfChildrenLabel.text = "\(Int(numberOfChildrenStepper.value))"
-    }
-    
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         updateNumberOfGuests()
     }
@@ -276,22 +301,6 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //MARK: для секции с опциями
     @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
         calculateCharges()
-    }
-    
-    //MARK: для секции с выбором типа номера
-    //функция для обновления типа номера
-    func updateRoomType() {
-        if let roomType = roomType {
-            roomTypeLabel.text = roomType.name
-            
-            //добавляем проверку доступности кнопки после обновления текста
-            updateDoneButtonState()
-            
-            //так же пересчитаем сумму
-            calculateCharges()
-        } else {
-            roomTypeLabel.text = "Not Set"
-        }
     }
     
     //MARK: переход по нажатию на ячейку с выбором номера
@@ -317,6 +326,12 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         //скрываем клавиатуру
         textField.resignFirstResponder()
         return true
+    }
+    
+    //MARK: для соответствия протоколу SelectRoomTypeTableViewControllerDelegate
+    func selectRoomTypeTableViewController(_ controller: SelectRoomTypeTableViewController, didSelect roomType: RoomType) {
+        self.roomType = roomType
+        updateRoomType()
     }
 }
 

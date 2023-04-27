@@ -40,6 +40,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="yFc-cT-uQT" kind="presentation" id="DWt-pY-qdF"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -47,7 +50,7 @@
                             <outlet property="delegate" destination="V5S-IB-jxS" id="YDL-UV-2Qd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Registrations" id="lyH-T1-4DZ">
+                    <navigationItem key="navigationItem" title="Registrations" largeTitleDisplayMode="always" id="lyH-T1-4DZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7V2-xu-9it">
                             <connections>
                                 <segue destination="yFc-cT-uQT" kind="presentation" id="ALG-Rs-hdf"/>
@@ -63,8 +66,8 @@
         <scene sceneID="I0L-M6-6g4">
             <objects>
                 <navigationController id="U6F-Ne-kgX" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RdD-3f-cPx">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="RdD-3f-cPx">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -250,7 +253,7 @@
                             <tableViewSection id="V1U-4H-qfa">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yUk-Mw-8gv">
-                                        <rect key="frame" x="0.0" y="800.99998855590832" width="393" height="54.333332061767578"/>
+                                        <rect key="frame" x="0.0" y="800.9999885559082" width="393" height="54.333332061767578"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yUk-Mw-8gv" id="swR-WJ-sh7">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="54.333332061767578"/>
@@ -294,7 +297,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="apg-OW-qgT">
-                                        <rect key="frame" x="0.0" y="855.33332061767589" width="393" height="44"/>
+                                        <rect key="frame" x="0.0" y="855.33332061767578" width="393" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="apg-OW-qgT" id="VFD-pg-Hwz">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
@@ -342,7 +345,7 @@
                             <tableViewSection id="OIY-Qm-jn8">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ZKI-vn-ZL7">
-                                        <rect key="frame" x="0.0" y="935.33332061767589" width="393" height="53.333332061767578"/>
+                                        <rect key="frame" x="0.0" y="935.33332061767578" width="393" height="53.333332061767578"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZKI-vn-ZL7" id="SW5-F6-h69">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="53.333332061767578"/>
@@ -693,7 +696,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="gyt-CS-WE6" kind="relationship" relationship="rootViewController" id="qrm-Ly-KwI"/>
+                        <segue destination="gyt-CS-WE6" kind="relationship" relationship="rootViewController" destinationCreationSelector="showRegistration:sender:" id="qrm-Ly-KwI"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oyQ-Q4-Omo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -701,6 +704,9 @@
             <point key="canvasLocation" x="-478" y="3"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="DWt-pY-qdF"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
