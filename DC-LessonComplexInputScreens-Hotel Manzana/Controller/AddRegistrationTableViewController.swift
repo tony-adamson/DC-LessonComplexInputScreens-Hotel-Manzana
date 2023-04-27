@@ -91,6 +91,17 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //атулет для бар баттон
     @IBOutlet var doneBarButton: UIBarButtonItem!
     
+    //Аутлеты для Сharges
+    @IBOutlet var numberOfNightsCount: UILabel!
+    @IBOutlet var dateInformationLabel: UILabel!
+    @IBOutlet var totalPriceForRoomLabel: UILabel!
+    @IBOutlet var totalPriceForRoomInfoLabel: UILabel!
+    @IBOutlet var wifiPriceLabel: UILabel!
+    @IBOutlet var wifiInfoLabel: UILabel!
+    @IBOutlet var totalPriceLabel: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -106,10 +117,58 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         updateRoomType()
         
         doneBarButton.isEnabled = false
+        
+        //Установим начальные значения для charges
+        calculateCharges()
+        
         //добавляем отслеживание для 3х текстовых полей по наличию измненеий
         firstNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
         lastNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
         emailTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
+    }
+    
+    //MARK: метод для расчета всех полей в charges
+    func calculateCharges() {
+        //создаем промежуточную переменную для подсчета денег
+        var medianCalc = 0
+        
+        //подсчитаем количество дней
+        // Вычисляем количество дней между двумя датами
+        let dateComponents = Calendar.current.dateComponents([.day], from: checkInDatePicker.date, to: checkOutDatePicker.date)
+        let numberOfDays = dateComponents.day ?? 0 // количество дней между двумя датами
+        numberOfNightsCount.text = "\(numberOfDays)"
+        
+        //устанавливаем гард для извлечения опционала из текстового определения даты
+        guard let checkInDate = checkInDateLabel.text, let checkOutDate = checkOutDateLabel.text else { return }
+        //заполняем поле
+        dateInformationLabel.text = checkInDate + "-" + checkOutDate
+        
+        //заполним поле с номером отеля
+        //обновление метки выполнено в updateRoomType()
+        if let roomType = roomType {
+            totalPriceForRoomInfoLabel.text = "\(roomType.name) @ $\(roomType.price)/night"
+            totalPriceForRoomLabel.text = "$ \(roomType.price * numberOfDays)"
+            medianCalc += roomType.price * numberOfDays
+        } else {
+            totalPriceForRoomLabel.text = "$ 0"
+            totalPriceForRoomInfoLabel.text = "Set Room"
+        }
+        
+        //субтитры и стоимость вайфай на все дни
+        if wifiSwitch.isOn {
+            wifiPriceLabel.text = "$ \(numberOfDays * 10)"
+            wifiInfoLabel.text = "Yes"
+            medianCalc += numberOfDays * 10
+        } else {
+            wifiPriceLabel.text = "$ 0"
+            wifiInfoLabel.text = "No"
+        }
+        
+        if roomType != nil {
+            totalPriceLabel.text = "$ \(medianCalc)"
+        } else {
+            totalPriceLabel.text = "$ 0"
+        }
     }
     
     //MARK: метод для включения кнопки DONE
@@ -131,12 +190,15 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     //функция срабатывает при изменении значения первого пикера
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         updateDateViews()
+        calculateCharges()
     }
     
     //для обновления данных в полях даты заезда и даты выезда
     func updateDateViews() {
         //присваиваем минимальную дату пикеру используя обращение к текущей дате и date(byAdding:value:to:) добавляя один день
         checkOutDatePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: checkInDatePicker.date)
+        
+        calculateCharges()
         
         //обращаемся к дате в пикере и форматируем ее .abbreviated - аббревиатура, .omitted - исключенная/пропущенная
         checkInDateLabel.text = checkInDatePicker.date.formatted(date: .abbreviated, time: .omitted)
@@ -206,6 +268,7 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     
     //MARK: для секции с опциями
     @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
+        calculateCharges()
     }
     
     //MARK: для секции с выбором типа номера
@@ -213,14 +276,18 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     func updateRoomType() {
         if let roomType = roomType {
             roomTypeLabel.text = roomType.name
+            
             //добавляем проверку доступности кнопки после обновления текста
             updateDoneButtonState()
+            
+            //так же пересчитаем сумму
+            calculateCharges()
         } else {
             roomTypeLabel.text = "Not Set"
         }
     }
     
-    //МARK: переход по нажатию на ячейк ус выбором номера
+    //MARK: переход по нажатию на ячейку с выбором номера
     @IBSegueAction func selectRoomType(_ coder: NSCoder) -> SelectRoomTypeTableViewController? {
         //инициализируем переменную как SelectRoomTypeTableViewController(coder: coder)
         let selectRoomTypeController = SelectRoomTypeTableViewController(coder: coder)

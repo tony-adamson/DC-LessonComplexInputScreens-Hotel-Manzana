@@ -57,5 +57,16 @@ class RegistrationTableViewController: UITableViewController {
         return cell
     }
 
+    //подготовим данные по нажатию на ячейку с данными
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        //если идентификатор перехода - нажатие на ячейку то
+//        if segue.identifier == "ShowAddRegistrationDetails" {
+//            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+//                let registration = registrations[indexPath.row]
+//                let destinationVC = segue.destination as! AddRegistrationTableViewController
+//                destinationVC.registration = registration
+//            }
+//        }
+//    }
 
 }
