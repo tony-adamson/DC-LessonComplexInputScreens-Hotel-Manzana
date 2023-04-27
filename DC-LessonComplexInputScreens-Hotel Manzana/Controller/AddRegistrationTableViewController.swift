@@ -104,7 +104,7 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         //если данные для редактирования получены то
         if let existingRegistration = existingRegistration {
             //меняем заголовок таблицы
-            title = "View/Edit Guest Registration"
+            title = "View Guest Registration"
             doneBarButton.isEnabled = false
             roomType = existingRegistration.roomType
             
@@ -130,16 +130,8 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         updateDateViews()
         updateNumberOfGuests()
         updateRoomType()
-        
-        doneBarButton.isEnabled = false
-        
         //Установим значения для charges
         calculateCharges()
-        
-        //добавляем отслеживание для 3х текстовых полей по наличию измненеий
-        firstNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
-        lastNameTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
-        emailTextField.addTarget(self, action: #selector(updateDoneButtonState), for: .editingChanged)
     }
     
     //для обновления данных в полях даты заезда и даты выезда
@@ -167,14 +159,13 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         if let roomType = roomType {
             roomTypeLabel.text = roomType.name
             
-            //добавляем проверку доступности кнопки после обновления текста
-            updateDoneButtonState()
-            
             //так же пересчитаем сумму
             calculateCharges()
         } else {
             roomTypeLabel.text = "Not Set"
         }
+        
+        doneBarButton.isEnabled = existingRegistration == nil && registration != nil
     }
     
     //MARK: метод для расчета всех полей в charges
@@ -222,17 +213,8 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     }
     
     //MARK: метод для включения кнопки DONE
-    @objc func updateDoneButtonState() {
-        guard let registration = registration,
-              !registration.firstName.isEmpty,
-              !registration.lastName.isEmpty,
-              !registration.emailAddress.isEmpty,
-              registration.numberOfAdults + registration.numberOfChildren > 0
-        else {
-            doneBarButton.isEnabled = false
-            return
-        }
-        doneBarButton.isEnabled = true
+    @IBAction func nameTextFieldChanged(_ sender: UITextField) {
+        doneBarButton.isEnabled = existingRegistration == nil && registration != nil
     }
     
     
@@ -243,6 +225,40 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         calculateCharges()
     }
     
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        updateNumberOfGuests()
+    }
+    
+    //MARK: для секции с опциями
+    @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
+        calculateCharges()
+    }
+    
+    //MARK: переход по нажатию на ячейку с выбором номера
+    @IBSegueAction func selectRoomType(_ coder: NSCoder) -> SelectRoomTypeTableViewController? {
+        //инициализируем переменную как SelectRoomTypeTableViewController(coder: coder)
+        let selectRoomTypeController = SelectRoomTypeTableViewController(coder: coder)
+        
+        //назначаем ее делегатом
+        selectRoomTypeController?.delegate = self
+        //В этой строке кода значение свойства roomType объекта selectRoomTypeController устанавливается равным значению свойства roomType текущего объекта AddRegistrationTableViewController.
+        //Это означает, что если в AddRegistrationTableViewController была уже сделана выборка типа номера, выбранное значение будет передано в SelectRoomTypeTableViewController, чтобы он мог отметить соответствующую ячейку в своем списке и отобразить выбранное значение.
+        selectRoomTypeController?.roomType = roomType
+        
+        return selectRoomTypeController
+    }
+    
+    //Действие по нажатию на кнопку Cancel
+    @IBAction func cancelButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    // Реализуем метод протокола UITextFieldDelegate для скрытия клавиатуры
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //скрываем клавиатуру
+        textField.resignFirstResponder()
+        return true
+    }
     
     //метод делегата таблицы запрашивает высоту строки при отображении строк таблицы.
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -292,40 +308,6 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         //обновляем вью для пересчета высоты ячеек после действий выбора
         tableView.beginUpdates()
         tableView.endUpdates() 
-    }
-    
-    @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        updateNumberOfGuests()
-    }
-    
-    //MARK: для секции с опциями
-    @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
-        calculateCharges()
-    }
-    
-    //MARK: переход по нажатию на ячейку с выбором номера
-    @IBSegueAction func selectRoomType(_ coder: NSCoder) -> SelectRoomTypeTableViewController? {
-        //инициализируем переменную как SelectRoomTypeTableViewController(coder: coder)
-        let selectRoomTypeController = SelectRoomTypeTableViewController(coder: coder)
-        
-        //назначаем ее делегатом
-        selectRoomTypeController?.delegate = self
-        //В этой строке кода значение свойства roomType объекта selectRoomTypeController устанавливается равным значению свойства roomType текущего объекта AddRegistrationTableViewController.
-        //Это означает, что если в AddRegistrationTableViewController была уже сделана выборка типа номера, выбранное значение будет передано в SelectRoomTypeTableViewController, чтобы он мог отметить соответствующую ячейку в своем списке и отобразить выбранное значение.
-        selectRoomTypeController?.roomType = roomType
-        
-        return selectRoomTypeController
-    }
-    
-    @IBAction func cancelButtonTapped() {
-        dismiss(animated: true)
-    }
-    
-    // Реализуем метод протокола UITextFieldDelegate для скрытия клавиатуры
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //скрываем клавиатуру
-        textField.resignFirstResponder()
-        return true
     }
     
     //MARK: для соответствия протоколу SelectRoomTypeTableViewControllerDelegate
