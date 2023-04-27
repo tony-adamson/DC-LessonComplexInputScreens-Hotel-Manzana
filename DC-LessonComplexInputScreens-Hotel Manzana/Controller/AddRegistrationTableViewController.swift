@@ -7,7 +7,9 @@
 
 import UIKit
 
-class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeTableViewControllerDelegate {
+class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeTableViewControllerDelegate, UITextFieldDelegate {
+    
+    //добавили делегат тектового поля для реализации скрытия клавиатуры по нажатию кнопки
     
     //MARK: для соответствия протоколу SelectRoomTypeTableViewControllerDelegate
     func selectRoomTypeTableViewController(_ controller: SelectRoomTypeTableViewController, didSelect roomType: RoomType) {
@@ -105,6 +107,11 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Устанавливаем делегатом для каждого текстового поля текущий класс для реализации скрытия клавиатуры
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
+        emailTextField.delegate = self
+        
         //инициализируем константу и передаем в него текущую дату из календаря устройства
         let midnightToday = Calendar.current.startOfDay(for: Date())
         //устанавливаем свойство .minimumDate у пикера равным текущей дате
@@ -305,6 +312,12 @@ class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeT
         dismiss(animated: true)
     }
     
+    // Реализуем метод протокола UITextFieldDelegate для скрытия клавиатуры
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //скрываем клавиатуру
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 
